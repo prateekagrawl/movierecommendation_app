@@ -1,7 +1,9 @@
 package com.example.movierecommendation.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -11,6 +13,11 @@ import java.util.Date;
 
 @Data
 @Entity
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "review_table")
 public class Review {
 
@@ -23,10 +30,15 @@ public class Review {
 
     private double rating;
 
-    @CreatedDate
+    //many reviews one movie
+    @ManyToOne //make relationship with Movie entity
+    @JoinColumn //then join column
+    private Movie movie;  //movie_movie_id
+
+    @CreationTimestamp
     private Date createdDate;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private Date updatedDate;
 
 }
